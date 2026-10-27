@@ -1,0 +1,268 @@
+---
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { getContent, md, formatDate } from '../lib/content';
+
+const { profile, projects, services, posts } = await getContent();
+const featured = (projects.filter((p) => p.featured).length ? projects.filter((p) => p.featured) : projects).slice(0, 3);
+const categories = new Set(projects.map((p) => p.category));
+const disciplines = profile.disciplines.filter((d) => !d.category || categories.has(d.category));
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: profile.name,
+  url: Astro.site?.href,
+  email: profile.email ? `mailto:${profile.email}` : undefined,
+  image: profile.photo_url ? new URL(profile.photo_url, Astro.site).href : undefined,
+  address: profile.location ? { '@type': 'PostalAddress', addressLocality: profile.location } : undefined,
+  sameAs: profile.socials.map((s) => s.url),
+};
+---
+
+<Base>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+  <section class="hero wrap">
+    <div class="hero-text">
+      <h1 class="hero-name">{profile.name}</h1>
+      <p class="hero-headline">{profile.headline}</p>
+      <p class="hero-intro">{profile.intro}</p>
+      {profile.availability && (
+        <p class="availability"><span class="dot" aria-hidden="true"></span>{profile.availability}</p>
+      )}
+      <div class="actions">
+        <a class="btn" href="/projects/">See my projects</a>
+        {profile.cv_url && (
+          <a class="btn btn-quiet" href={profile.cv_url} download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-4-4m4 4 4-4M5 21h14"></path></svg>
+            Download CV
+          </a>
+        )}
+      </div>
+    </div>
+    {profile.photo_url && (
+      <img class="hero-photo" src={profile.photo_url} alt={`Portrait of ${profile.name}`} width="720" height="720" fetchpriority="high" />
+    )}
+  </section>
+
+  {disciplines.length > 0 && (
+    <nav class="disciplines wrap" aria-labelledby="disciplines-title">
+      <h2 id="disciplines-title" class="visually-hidden">Browse projects by discipline</h2>
+      <ul>
+        {disciplines.map((d) => (
+          <li>
+            <a href={d.category ? `/projects/?c=${encodeURIComponent(d.category)}` : '/projects/'}>{d.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )}
+
+  {featured.length > 0 && (
+    <section class="section wrap">
+      <div class="section-head">
+        <h2>Selected work</h2>
+        <a href="/projects/">All {projects.length} projects</a>
+      </div>
+      <div class="featured-grid">
+        {featured.map((p, i) => <ProjectCard project={p} eager={i === 0} />)}
+      </div>
+    </section>
+  )}
+
+  <section class="section wrap about">
+    <div>
+      <h2>About</h2>
+      <div class="prose" set:html={md(profile.about)} />
+      <p><a href="/resume/">Experience, education and skills</a></p>
+    </div>
+    {services.length > 0 && (
+      <div>
+        <h2>How I can help</h2>
+        <dl class="services">
+          {services.map((s) => (
+            <div>
+              <dt>{s.title}</dt>
+              <dd>{s.description}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    )}
+  </section>
+
+  {posts.length > 0 && (
+    <section class="section wrap">
+      <div class="section-head">
+        <h2>Writing</h2>
+        <a href="/blog/">All posts</a>
+      </div>
+      <ul class="post-list">
+        {posts.slice(0, 3).map((p) => (
+          <li>
+            <a href={`/blog/${p.slug}/`}>{p.title}</a>
+            <time datetime={p.published_on}>{formatDate(p.published_on)}</time>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  <section class="section wrap">
+    <div class="cta">
+      <h2>Have a role or a project in mind?</h2>
+      <p>I reply to every message, usually within a day.</p>
+      <div class="actions">
+        <a class="btn" href="/contact/">Get in touch</a>
+        {profile.email && <a class="btn btn-quiet" href={`mailto:${profile.email}`}>{profile.email}</a>}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: clamp(1.5rem, 4vw, 4rem);
+    align-items: end;
+    padding-block: clamp(2.5rem, 7vw, 6rem) clamp(2rem, 4vw, 3rem);
+  }
+  .hero-name {
+    font-size: var(--step-hero);
+    font-stretch: 76%;
+    font-weight: 700;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    margin: 0 0 0.35em;
+    max-width: 9ch;
+  }
+  .hero-headline {
+    font-size: var(--step-2);
+    line-height: 1.25;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    max-width: 28ch;
+    margin-bottom: 0.75em;
+  }
+  .hero-intro {
+    color: var(--muted);
+    max-width: var(--measure);
+  }
+  .availability {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    font-weight: 600;
+    margin-bottom: 1.75rem;
+  }
+  .dot {
+    flex: none;
+    inline-size: 0.6rem;
+    block-size: 0.6rem;
+    border-radius: 50%;
+    background: var(--ok);
+    transform: translateY(-0.05em);
+  }
+  .hero-photo {
+    width: clamp(12rem, 22vw, 19rem);
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: var(--r-md);
+    border: 1px solid var(--line);
+  }
+  @media (max-width: 48rem) {
+    .hero {
+      grid-template-columns: 1fr;
+    }
+    .hero-photo {
+      order: -1;
+      width: 6.5rem;
+      border-radius: 50%;
+    }
+  }
+
+  .disciplines ul {
+    border-block: 1px solid var(--line);
+    padding-block: 1.1rem !important;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.75rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .disciplines a {
+    color: var(--ink);
+    text-decoration: none;
+    font-size: var(--step-1);
+    font-weight: 560;
+    font-stretch: 88%;
+  }
+  .disciplines a:hover {
+    color: var(--accent);
+    text-decoration: underline;
+  }
+
+  .about {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr));
+    gap: 3rem clamp(2rem, 6vw, 5rem);
+  }
+  .services {
+    margin: 0;
+  }
+  .services > div {
+    padding-block: 1rem;
+    border-top: 1px solid var(--line);
+  }
+  .services > div:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+  .services dt {
+    font-weight: 650;
+    margin-bottom: 0.2rem;
+  }
+  .services dd {
+    margin: 0;
+    color: var(--muted);
+  }
+
+  .post-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .post-list li {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding-block: 0.9rem;
+    border-top: 1px solid var(--line);
+  }
+  .post-list a {
+    font-size: var(--step-1);
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .post-list a:hover {
+    color: var(--accent);
+  }
+  .post-list time {
+    color: var(--muted);
+  }
+
+  .cta {
+    background: var(--accent-soft);
+    border-radius: var(--r-md);
+    padding: clamp(1.75rem, 5vw, 3.5rem);
+  }
+  .cta h2 {
+    max-width: 22ch;
+  }
+  .cta p {
+    color: var(--muted);
+  }
+</style>

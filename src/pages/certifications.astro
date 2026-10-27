@@ -1,0 +1,59 @@
+---
+import Base from '../layouts/Base.astro';
+import { getContent } from '../lib/content';
+
+const { certifications } = await getContent();
+---
+
+<Base title="Certifications" description="Security and IT courses and certifications.">
+  <header class="page-head wrap">
+    <h1>Certifications</h1>
+    <p>Courses and certificates in information security and ethical hacking.</p>
+  </header>
+  <section class="wrap">
+    {certifications.length ? (
+      <ul class="certs">
+        {certifications.map((c) => (
+          <li>
+            {c.image_url && (
+              <a href={c.image_url} class="cert-img">
+                <img src={c.image_url} alt={`Certificate: ${c.title}`} width="1000" height="667" loading="lazy" decoding="async" />
+              </a>
+            )}
+            <h2>{c.title}</h2>
+            <p class="muted">{[c.issuer, c.issued_label].filter(Boolean).join(', ')}</p>
+            {c.credential_url && <a href={c.credential_url} rel="noopener">Verify this credential</a>}
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p class="muted">No certifications are published yet.</p>
+    )}
+  </section>
+</Base>
+
+<style>
+  .certs {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+    gap: 2.5rem 2rem;
+  }
+  .cert-img img {
+    border-radius: var(--r-sm);
+    border: 1px solid var(--line);
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+  .certs h2 {
+    font-size: var(--step-1);
+    margin-bottom: 0.25rem;
+  }
+  .certs p {
+    margin-bottom: 0.4rem;
+  }
+</style>

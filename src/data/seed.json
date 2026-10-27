@@ -1,0 +1,369 @@
+{
+  "profile": {
+    "id": 1,
+    "name": "Muhammad Haider Abbas",
+    "short_name": "Haider Abbas",
+    "headline": "I test how software breaks, and build software that doesn't.",
+    "intro": "Cyber security learner and developer studying for an MSc in Computer Science & Technology at Ulster University, Birmingham. I bring a background in game development, 3D and video production, web systems and e-commerce to security work: I know how real products are built, so I know where they tend to fail.",
+    "about": "My path into security runs through building things. I've shipped Unity and Unreal game systems, a PHP/MySQL marketplace with Stripe payments, Shopify stores and a lot of 3D and video work. Along the way I got curious about how each of those systems could be attacked, and started testing them properly in lab environments with Kali Linux, Burp Suite, Nmap and DVWA.\n\nToday I focus on web application security, vulnerability reporting and secure development, alongside MSc research into machine-learning anomaly detection under concept drift.",
+    "availability": "Open to part-time roles in cyber security, SOC analysis or IT support in Birmingham.",
+    "location": "Birmingham, United Kingdom",
+    "email": "muhammad2004haider@gmail.com",
+    "phone": "+44 7856 126502",
+    "photo_url": "/img/profile/haider.webp",
+    "cv_url": "/CV_File/MuhammadHaiderAbbasCV.pdf",
+    "disciplines": [
+      { "label": "Cyber security", "category": "Cyber security" },
+      { "label": "Web systems", "category": "Web systems" },
+      { "label": "Game development", "category": "Games" },
+      { "label": "3D, animation & VFX", "category": "3D & VFX" },
+      { "label": "E-commerce", "category": "E-commerce" },
+      { "label": "AI research", "category": "AI research" }
+    ],
+    "socials": [
+      { "label": "GitHub", "url": "https://github.com/MuhammadHaiderAbbas" },
+      { "label": "LinkedIn", "url": "https://shorturl.at/5ngri" }
+    ],
+    "seo_description": "Haider Abbas: cyber security learner and developer in Birmingham, UK. Web application security, game development, web systems, 3D and e-commerce projects."
+  },
+  "projects": [
+    {
+      "slug": "cybersecurity-lab-dvwa",
+      "title": "Web application security lab",
+      "summary": "Hands-on testing of DVWA in a controlled lab: SQL injection, XSS, CSRF, command injection, file upload and brute force, with findings written up as vulnerability reports.",
+      "category": "Cyber security",
+      "tech": ["Kali Linux", "Burp Suite", "DVWA", "Nmap", "SQLMap", "Hydra"],
+      "cover_url": "/img/projects/cyber-lab.webp",
+      "gallery": [
+        "/img/projects/dvwa-01.webp",
+        "/img/projects/dvwa-02.webp",
+        "/img/projects/dvwa-03.webp",
+        "/img/projects/dvwa-04.webp",
+        "/img/projects/dvwa-05.webp",
+        "/img/projects/dvwa-06.webp",
+        "/img/projects/dvwa-07.webp"
+      ],
+      "body": "## Overview\n\nPractical security work in a controlled, legal lab environment, focused on vulnerability discovery, understanding how exploitation works, secure coding awareness and professional reporting.\n\n## Lab environment\n\nKali Linux, DVWA, Burp Suite, Nmap and browser-based testing workflows. All testing was performed only against systems I own or that are built to be attacked.\n\n## What I tested\n\n- SQL injection (including blind) and automated testing with SQLMap\n- Stored and reflected cross-site scripting\n- Cross-site request forgery\n- Command injection and file inclusion\n- Insecure file upload\n- Brute-force attacks on login forms with Hydra\n\n## Outcome\n\nThe project sharpened my understanding of how insecure applications fail, how attackers investigate systems, and how developers reduce risk with input validation, prepared statements, access control and secure configuration.\n\n> Security knowledge is strongest when it improves how software is built, not only how it is tested.",
+      "live_url": "",
+      "repo_url": "",
+      "video_url": "",
+      "featured": true,
+      "published": true,
+      "sort_order": 1,
+      "project_date": "2026-06-08"
+    },
+    {
+      "slug": "car-marketplace",
+      "title": "Car marketplace platform",
+      "summary": "An Autotrader-style marketplace in PHP and MySQL with seller packages, Stripe checkout and webhooks, ad moderation and featured listings.",
+      "category": "Web systems",
+      "tech": ["PHP 8", "MySQL", "Stripe", "Bootstrap", "JavaScript"],
+      "cover_url": "",
+      "gallery": [],
+      "body": "## Overview\n\nA complete car-selling marketplace, converted from a rental-style template into an Autotrader-style platform. It supports user accounts, seller packages, paid ad publishing, featured ads, admin moderation and database-driven browsing.\n\n## Main features\n\n- Registration, login and active-subscription checks\n- Ad posting with image upload validation\n- Brand and category data with search filtering\n- Featured and standard listings\n- Admin approval and a user dashboard\n- Paid ad durations and seller commission logic\n\nStripe Checkout handles package payments, with webhooks confirming payment status and activating publishing rights. Package rules cover remaining ad credits, blocking while a payment is pending, and redirects for users who already have an active subscription.\n\n## Stack\n\nHTML, CSS, Bootstrap and JavaScript on the front end; PHP 8 with PDO and MySQL on the back end. Server-side validation, prepared statements, CSRF-aware forms and controlled upload rules.\n\n## What I built\n\nSubscription logic, ad publishing, the payment flow, admin and user panel improvements, marketplace browsing, a blog system, featured ad sections, package pricing and UI restructuring.",
+      "live_url": "",
+      "repo_url": "",
+      "video_url": "",
+      "featured": true,
+      "published": true,
+      "sort_order": 2,
+      "project_date": "2026-06-08"
+    },
+    {
+      "slug": "unity-tactical-fps",
+      "title": "Tactical FPS and sniper game",
+      "summary": "A mission-based Unity shooter with weapon handling, scopes, state-based enemy AI, mission objectives, vehicles and a large terrain level.",
+      "category": "Games",
+      "tech": ["Unity", "C#", "NavMesh", "Blender"],
+      "cover_url": "/img/projects/tactical-fps.webp",
+      "gallery": [],
+      "body": "## Overview\n\nA tactical FPS and sniper game inspired by mission-based shooters, focused on realistic controls, weapon handling, enemy AI, mission systems, terrain design and immersive presentation.\n\n## Gameplay systems\n\nFPS movement, aiming down sights, recoil, burst and fire modes, projectile logic, scopes, binocular, night and thermal overlays, health and damage, weapon switching, and UI feedback for ammo, objectives and interactions.\n\n## AI and missions\n\nEnemies use state-based AI (idle, patrol, alert, investigate, search, combat) on Unity NavMesh, with mission logic for progression, target elimination, extraction and scenario control.\n\n## World and vehicles\n\nA large terrain with infiltration areas, refinery and industrial sections, a storage warehouse, the main compound and an extraction zone. Vehicles use wheel colliders with driver-seat logic, braking, acceleration, handbrake and stability handling.",
+      "live_url": "",
+      "repo_url": "https://github.com/MuhammadHaiderAbbas/TacticalFPS-Unity",
+      "video_url": "",
+      "featured": true,
+      "published": true,
+      "sort_order": 3,
+      "project_date": "2026-01-03"
+    },
+    {
+      "slug": "ml-anomaly-detection",
+      "title": "ML anomaly detection under concept drift",
+      "summary": "MSc research into anomaly detection that stays accurate when normal behaviour shifts over time, using open, GDPR-safe datasets.",
+      "category": "AI research",
+      "tech": ["Python", "Machine learning", "Data science"],
+      "cover_url": "",
+      "gallery": [],
+      "body": "## Research question\n\nTraditional anomaly detection assumes future data looks like training data. In real systems such as networks, transactions, sensors and user activity, behaviour changes continuously, and a model that was accurate can quietly degrade. This project looks at detecting anomalies while adapting to that drift.\n\n## Method\n\nLiterature review, GDPR-aware dataset selection, preprocessing, a baseline detector, drift detection, model comparison, and evaluation on precision, recall, F1, false-positive rate and detection delay.\n\n## Data\n\nPublicly available, non-personal or anonymised datasets: network intrusion data, synthetic streams and open benchmarks designed for drift evaluation.\n\n## Expected outcome\n\nAn adaptive anomaly-detection workflow that outperforms a static baseline under changing data, connecting data science with security monitoring.\n\n> Reliable AI should not only detect unusual behaviour; it should stay useful when the world changes.",
+      "live_url": "",
+      "repo_url": "",
+      "video_url": "",
+      "featured": false,
+      "published": true,
+      "sort_order": 4,
+      "project_date": "2026-06-08"
+    },
+    {
+      "slug": "family-haven-shopify",
+      "title": "Family Haven Shopify store",
+      "summary": "A UK pet-accessories store: product research, CJ dropshipping, store pages and policies, SEO blog structure, and ad testing on Meta, TikTok and Pinterest.",
+      "category": "E-commerce",
+      "tech": ["Shopify", "SEO", "Meta Ads", "TikTok Ads", "Pinterest"],
+      "cover_url": "/img/projects/family-haven.webp",
+      "gallery": [],
+      "body": "## Overview\n\nFamily Haven is a UK-focused Shopify store for pet accessories. The work covered store setup, product positioning, fulfilment planning, product page improvements, SEO blog structure, ad testing and conversion-focused messaging.\n\n## Store and fulfilment\n\nUK-only targeting, free-shipping messaging, return policy, product collections and a CJ dropshipping workflow. Products tested included grooming and pet-care items such as steam brushes and smart pet dryers.\n\n## Marketing\n\nCampaign planning across Meta, TikTok and Pinterest, creative direction, product copy, SEO blog planning and ad-angle development, with monitoring of add-to-cart, checkout behaviour and product-level performance.",
+      "live_url": "",
+      "repo_url": "",
+      "video_url": "",
+      "featured": false,
+      "published": true,
+      "sort_order": 5,
+      "project_date": "2025-12-01"
+    },
+    {
+      "slug": "blender-3d-animation",
+      "title": "Blender 3D car animation",
+      "summary": "A modelled, lit and rendered 3D car animation made in Blender.",
+      "category": "3D & VFX",
+      "tech": ["Blender", "Rendering", "Animation"],
+      "cover_url": "/img/projects/blender-animation.webp",
+      "gallery": [],
+      "body": "A 3D animation project in Blender covering modelling, materials, lighting, camera work and rendering.",
+      "live_url": "",
+      "repo_url": "",
+      "video_url": "https://youtu.be/QxvEu5VFSfU",
+      "featured": false,
+      "published": true,
+      "sort_order": 6,
+      "project_date": "2025-06-01"
+    },
+    {
+      "slug": "vfx-and-video-editing",
+      "title": "Graphics, VFX and video editing",
+      "summary": "Motion graphics, VFX and edited video for clients, including the animated short \"Cars Evolution\".",
+      "category": "3D & VFX",
+      "tech": ["After Effects", "Premiere Pro", "Photoshop", "Illustrator", "Maya"],
+      "cover_url": "/img/projects/vfx-video.webp",
+      "gallery": ["/img/projects/graphic-design.webp"],
+      "body": "Animations, VFX, motion graphics and edited digital content produced for clients at Vision Giants and as freelance work, plus graphic design for social content and e-commerce visuals.",
+      "live_url": "",
+      "repo_url": "",
+      "video_url": "",
+      "featured": false,
+      "published": true,
+      "sort_order": 7,
+      "project_date": "2024-12-01"
+    },
+    {
+      "slug": "unity-lottery-game",
+      "title": "Unity lottery game prototype",
+      "summary": "A small Unity prototype with a login flow, in-game currency, betting and coin purchases.",
+      "category": "Games",
+      "tech": ["Unity", "C#"],
+      "cover_url": "/img/projects/lottery-game.webp",
+      "gallery": [],
+      "body": "A Unity prototype exploring a simple lottery game loop: user login, in-game currency, number picking and betting, and a coin purchase screen.",
+      "live_url": "",
+      "repo_url": "",
+      "video_url": "",
+      "featured": false,
+      "published": true,
+      "sort_order": 8,
+      "project_date": "2024-06-01"
+    }
+  ],
+  "posts": [
+    {
+      "slug": "dvwa-lab-notes",
+      "title": "What I learned attacking DVWA",
+      "excerpt": "Notes from testing every module in Damn Vulnerable Web Application, and what each one taught me about writing safer code.",
+      "cover_url": "/img/projects/cyber-lab.webp",
+      "tags": ["Security", "DVWA", "Web"],
+      "body": "This is a draft. Write your post here in Markdown, then switch on Published in the admin panel and press Publish.\n\n## SQL injection\n\n![SQL injection module](/img/projects/dvwa-01.webp)\n\n## Stored XSS\n\n![Stored XSS module](/img/projects/dvwa-02.webp)",
+      "published": false,
+      "published_on": "2026-10-27"
+    }
+  ],
+  "certifications": [
+    {
+      "title": "Introduction to Certified Information Security Manager (CISM)",
+      "issuer": "Alison",
+      "issued_label": "2025",
+      "credential_url": "",
+      "image_url": "/img/certs/alison-cism-intro.webp",
+      "sort_order": 1,
+      "published": true
+    },
+    {
+      "title": "Cyber Security: Understand Threats and Prevent Attacks",
+      "issuer": "Alison",
+      "issued_label": "2025",
+      "credential_url": "",
+      "image_url": "/img/certs/alison-cyber-threats.webp",
+      "sort_order": 2,
+      "published": true
+    },
+    {
+      "title": "CompTIA Security+ (SY0-601) course",
+      "issuer": "Alison",
+      "issued_label": "2024",
+      "credential_url": "",
+      "image_url": "/img/certs/alison-security-plus.webp",
+      "sort_order": 3,
+      "published": true
+    },
+    {
+      "title": "Certified Ethical Hacking course",
+      "issuer": "Ethical Hacking University",
+      "issued_label": "January 2023",
+      "credential_url": "",
+      "image_url": "/img/certs/ethical-hacking-course.webp",
+      "sort_order": 4,
+      "published": true
+    }
+  ],
+  "timeline": [
+    {
+      "kind": "work",
+      "title": "Resource Recruiter",
+      "organisation": "Right Recruitment",
+      "period": "2025 – 2026",
+      "description": "Candidate handling, shift coordination, staff communication and workforce planning for warehouse resourcing.",
+      "sort_order": 1,
+      "published": true
+    },
+    {
+      "kind": "work",
+      "title": "Instructor, 2D/3D animation & video editing",
+      "organisation": "PNY Institute, Multan",
+      "period": "2025 – present",
+      "description": "Taught Photoshop, Illustrator, After Effects, Maya, Blender and Premiere Pro; wrote course material, led workshops and mentored students towards freelance and industry work.",
+      "sort_order": 2,
+      "published": true
+    },
+    {
+      "kind": "work",
+      "title": "Cyber security & ethical hacking",
+      "organisation": "Projects and freelance",
+      "period": "2023 – present",
+      "description": "Penetration testing in lab environments (SQL injection, XSS, brute force) with Kali Linux, Nmap, Burp Suite, Hydra, Metasploit and SQLMap; vulnerability reports and simulated incident-response exercises.",
+      "sort_order": 3,
+      "published": true
+    },
+    {
+      "kind": "work",
+      "title": "2D/3D Animator & Video Editor",
+      "organisation": "Vision Giants, Multan",
+      "period": "Sep – Dec 2024",
+      "description": "Produced animations and VFX and edited digital content for clients.",
+      "sort_order": 4,
+      "published": true
+    },
+    {
+      "kind": "work",
+      "title": "Game Developer, Unity & Unreal",
+      "organisation": "Freelance",
+      "period": "2022 – present",
+      "description": "Multiplayer and single-player 3D games including FPS and mission-based titles; secure login and authentication systems, environment building, AI and networking.",
+      "sort_order": 5,
+      "published": true
+    },
+    {
+      "kind": "work",
+      "title": "E-commerce & IT support",
+      "organisation": "Shopify, Amazon FBA, freelance",
+      "period": "2021 – present",
+      "description": "Built and secured Shopify stores and payment flows, ran Facebook and Google ad campaigns, SEO and email marketing, and tracked performance with analytics.",
+      "sort_order": 6,
+      "published": true
+    },
+    {
+      "kind": "education",
+      "title": "MSc Computer Science & Technology",
+      "organisation": "Ulster University, Birmingham",
+      "period": "2025 – 2026",
+      "description": "Scalable software, big data infrastructure, data science, machine learning, deep learning and knowledge engineering, with a research project on anomaly detection under concept drift.",
+      "sort_order": 1,
+      "published": true
+    },
+    {
+      "kind": "education",
+      "title": "Bachelor of Information Technology",
+      "organisation": "Quaid-i-Azam University, Islamabad",
+      "period": "2021 – 2024",
+      "description": "Programming, data structures and algorithms, object-oriented design, web development, databases, Android, AI/ML, game development and multimedia.",
+      "sort_order": 2,
+      "published": true
+    },
+    {
+      "kind": "education",
+      "title": "Intermediate (Pre-Engineering)",
+      "organisation": "Punjab Group of Colleges, Multan",
+      "period": "2019 – 2020",
+      "description": "",
+      "sort_order": 3,
+      "published": true
+    },
+    {
+      "kind": "education",
+      "title": "Matriculation (Computer Science)",
+      "organisation": "HN Science School, Multan",
+      "period": "2017 – 2018",
+      "description": "",
+      "sort_order": 4,
+      "published": true
+    }
+  ],
+  "skills": [
+    { "group_name": "Security", "name": "Web application testing (OWASP)", "sort_order": 1 },
+    { "group_name": "Security", "name": "Vulnerability reporting & risk", "sort_order": 2 },
+    { "group_name": "Security", "name": "Kali Linux", "sort_order": 3 },
+    { "group_name": "Security", "name": "Burp Suite", "sort_order": 4 },
+    { "group_name": "Security", "name": "Nmap", "sort_order": 5 },
+    { "group_name": "Security", "name": "Metasploit", "sort_order": 6 },
+    { "group_name": "Security", "name": "SQLMap & Hydra", "sort_order": 7 },
+    { "group_name": "Security", "name": "Incident response basics", "sort_order": 8 },
+    { "group_name": "Development", "name": "PHP & MySQL", "sort_order": 1 },
+    { "group_name": "Development", "name": "HTML, CSS & JavaScript", "sort_order": 2 },
+    { "group_name": "Development", "name": "C# & C++", "sort_order": 3 },
+    { "group_name": "Development", "name": "Python & machine learning", "sort_order": 4 },
+    { "group_name": "Development", "name": "Stripe payments", "sort_order": 5 },
+    { "group_name": "Games & 3D", "name": "Unity", "sort_order": 1 },
+    { "group_name": "Games & 3D", "name": "Unreal Engine", "sort_order": 2 },
+    { "group_name": "Games & 3D", "name": "Blender", "sort_order": 3 },
+    { "group_name": "Games & 3D", "name": "Maya", "sort_order": 4 },
+    { "group_name": "Games & 3D", "name": "After Effects & Premiere Pro", "sort_order": 5 },
+    { "group_name": "Games & 3D", "name": "Photoshop & Illustrator", "sort_order": 6 },
+    { "group_name": "E-commerce & marketing", "name": "Shopify", "sort_order": 1 },
+    { "group_name": "E-commerce & marketing", "name": "Amazon FBA", "sort_order": 2 },
+    { "group_name": "E-commerce & marketing", "name": "SEO", "sort_order": 3 },
+    { "group_name": "E-commerce & marketing", "name": "Google & Meta Ads", "sort_order": 4 },
+    { "group_name": "E-commerce & marketing", "name": "Google Analytics", "sort_order": 5 }
+  ],
+  "services": [
+    {
+      "title": "Security testing",
+      "description": "Web application testing against OWASP-style weaknesses, with a written report of what I found and how to fix it.",
+      "sort_order": 1,
+      "published": true
+    },
+    {
+      "title": "Web systems",
+      "description": "PHP/MySQL applications, admin panels, dashboards and payment integrations.",
+      "sort_order": 2,
+      "published": true
+    },
+    {
+      "title": "Games and 3D",
+      "description": "Unity and Unreal gameplay systems, Blender assets, animation and VFX.",
+      "sort_order": 3,
+      "published": true
+    },
+    {
+      "title": "E-commerce",
+      "description": "Shopify setup, product pages, SEO and ad campaign testing.",
+      "sort_order": 4,
+      "published": true
+    }
+  ]
+}

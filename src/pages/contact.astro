@@ -1,0 +1,170 @@
+---
+import Base from '../layouts/Base.astro';
+import { getContent, supabaseConfig } from '../lib/content';
+
+const { profile } = await getContent();
+const formEnabled = Boolean(supabaseConfig.url && supabaseConfig.key);
+---
+
+<Base title="Contact" description={`Get in touch with ${profile.name}.`}>
+  <header class="page-head wrap">
+    <h1>Contact</h1>
+    <p>{profile.availability || 'Send a message about a role, a project or a question.'}</p>
+  </header>
+
+  <section class="wrap contact">
+    <dl class="details">
+      {profile.email && (
+        <div>
+          <dt>Email</dt>
+          <dd><a href={`mailto:${profile.email}`}>{profile.email}</a></dd>
+        </div>
+      )}
+      {profile.phone && (
+        <div>
+          <dt>Phone and WhatsApp</dt>
+          <dd><a href={`tel:${profile.phone.replace(/\s/g, '')}`}>{profile.phone}</a></dd>
+        </div>
+      )}
+      {profile.location && (
+        <div>
+          <dt>Based in</dt>
+          <dd>{profile.location}</dd>
+        </div>
+      )}
+      {profile.socials.length > 0 && (
+        <div>
+          <dt>Elsewhere</dt>
+          <dd>
+            <ul>
+              {profile.socials.map((s) => <li><a href={s.url} rel="me noopener">{s.label}</a></li>)}
+            </ul>
+          </dd>
+        </div>
+      )}
+    </dl>
+
+    {formEnabled ? (
+      <form id="contact-form" class="form" novalidate data-url={supabaseConfig.url} data-key={supabaseConfig.key}>
+        <h2>Send a message</h2>
+        <div class="field">
+          <label for="cf-name">Your name</label>
+          <input id="cf-name" name="name" required maxlength="120" autocomplete="name" />
+        </div>
+        <div class="field">
+          <label for="cf-email">Your email</label>
+          <input id="cf-email" name="email" type="email" required maxlength="200" autocomplete="email" />
+        </div>
+        <div class="field">
+          <label for="cf-subject">Subject <span class="muted">(optional)</span></label>
+          <input id="cf-subject" name="subject" maxlength="200" />
+        </div>
+        <div class="field">
+          <label for="cf-body">Message</label>
+          <textarea id="cf-body" name="body" required maxlength="5000"></textarea>
+        </div>
+        <div class="hp" aria-hidden="true">
+          <label for="cf-website">Leave this empty</label>
+          <input id="cf-website" name="website" tabindex="-1" autocomplete="off" />
+        </div>
+        <button class="btn" type="submit">Send message</button>
+        <p class="form-status" id="cf-status" role="status" aria-live="polite"></p>
+      </form>
+    ) : (
+      <div class="form">
+        <h2>Send a message</h2>
+        <p>Email me and I'll get back to you, usually within a day.</p>
+        {profile.email && <a class="btn" href={`mailto:${profile.email}`}>Email {profile.email}</a>}
+      </div>
+    )}
+  </section>
+</Base>
+
+<script is:inline>
+  (() => {
+    const form = document.getElementById('contact-form');
+    if (!form) return;
+    const status = document.getElementById('cf-status');
+    const btn = form.querySelector('button[type=submit]');
+    const say = (msg, state) => {
+      status.textContent = msg;
+      status.dataset.state = state;
+    };
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form));
+      if (data.website) return say('Message sent. Thanks, I will reply soon.', 'ok');
+      if (!data.name.trim() || !data.body.trim()) return say('Add your name and a message, then send again.', 'error');
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(data.email)) return say('Enter a valid email address so I can reply.', 'error');
+      btn.disabled = true;
+      say('Sending…', '');
+      try {
+        const res = await fetch(form.dataset.url + '/rest/v1/messages', {
+          method: 'POST',
+          headers: { apikey: form.dataset.key, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
+          body: JSON.stringify({
+            name: data.name.trim(),
+            email: data.email.trim(),
+            subject: data.subject.trim(),
+            body: data.body.trim(),
+          }),
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        form.reset();
+        say('Message sent. Thanks, I will reply soon.', 'ok');
+      } catch {
+        say('The message did not send. Try again, or email me directly.', 'error');
+      } finally {
+        btn.disabled = false;
+      }
+    });
+  })();
+</script>
+
+<style>
+  .contact {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+    gap: 3rem clamp(2rem, 6vw, 5rem);
+    align-items: start;
+  }
+  @media (max-width: 48rem) {
+    .contact {
+      grid-template-columns: 1fr;
+    }
+  }
+  .details {
+    margin: 0;
+  }
+  .details > div {
+    padding-block: 1rem;
+    border-top: 1px solid var(--line);
+  }
+  .details dt {
+    color: var(--muted);
+    font-size: var(--step--1);
+    margin-bottom: 0.15rem;
+  }
+  .details dd {
+    margin: 0;
+    font-size: var(--step-1);
+    overflow-wrap: anywhere;
+  }
+  .details ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .form {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    padding: clamp(1.25rem, 4vw, 2.25rem);
+  }
+  .form h2 {
+    font-size: var(--step-2);
+  }
+</style>

@@ -1,0 +1,157 @@
+---
+import Base from '../layouts/Base.astro';
+import { getContent } from '../lib/content';
+
+const { profile, timeline, skills, certifications } = await getContent();
+const work = timeline.filter((t) => t.kind === 'work');
+const education = timeline.filter((t) => t.kind === 'education');
+const groups = Object.entries(
+  skills.reduce<Record<string, string[]>>((acc, s) => {
+    (acc[s.group_name] ??= []).push(s.name);
+    return acc;
+  }, {})
+);
+---
+
+<Base title="Resume" description={`Experience, education and skills of ${profile.name}.`}>
+  <header class="page-head wrap">
+    <h1>Resume</h1>
+    <p>{profile.intro}</p>
+    {profile.cv_url && (
+      <a class="btn" href={profile.cv_url} download>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-4-4m4 4 4-4M5 21h14"></path></svg>
+        Download CV (PDF)
+      </a>
+    )}
+  </header>
+
+  {[
+    { title: 'Experience', items: work },
+    { title: 'Education', items: education },
+  ]
+    .filter((s) => s.items.length)
+    .map((s) => (
+      <section class="section wrap">
+        <h2>{s.title}</h2>
+        <ol class="timeline">
+          {s.items.map((t) => (
+            <li>
+              <p class="period">{t.period}</p>
+              <div>
+                <h3>{t.title}</h3>
+                {t.organisation && <p class="org">{t.organisation}</p>}
+                {t.description && <p class="desc">{t.description}</p>}
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+    ))}
+
+  {groups.length > 0 && (
+    <section class="section wrap">
+      <h2>Skills</h2>
+      <div class="skills">
+        {groups.map(([group, names]) => (
+          <div>
+            <h3>{group}</h3>
+            <ul>
+              {names.map((n) => <li>{n}</li>)}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+  )}
+
+  {certifications.length > 0 && (
+    <section class="section wrap">
+      <div class="section-head">
+        <h2>Certifications</h2>
+        <a href="/certifications/">View certificates</a>
+      </div>
+      <ul class="cert-list">
+        {certifications.map((c) => (
+          <li>
+            <span>{c.title}</span>
+            <span class="muted">{[c.issuer, c.issued_label].filter(Boolean).join(', ')}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+</Base>
+
+<style>
+  .timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .timeline li {
+    display: grid;
+    grid-template-columns: 11rem minmax(0, 1fr);
+    gap: 0.25rem 2rem;
+    padding-block: 1.4rem;
+    border-top: 1px solid var(--line);
+  }
+  .period {
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    margin: 0;
+    padding-top: 0.15rem;
+  }
+  .timeline h3 {
+    margin: 0;
+  }
+  .org {
+    color: var(--accent);
+    font-weight: 560;
+    margin: 0.15rem 0 0.5rem;
+  }
+  .desc {
+    color: var(--muted);
+    max-width: var(--measure);
+    margin: 0;
+  }
+  @media (max-width: 40rem) {
+    .timeline li {
+      grid-template-columns: 1fr;
+    }
+  }
+  .skills {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+    gap: 2rem;
+  }
+  .skills h3 {
+    font-size: 1.05rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 2px solid var(--accent);
+    margin-bottom: 0.75rem;
+  }
+  .skills ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .skills li {
+    padding-block: 0.3rem;
+  }
+  .cert-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .cert-list li {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.25rem 1.5rem;
+    padding-block: 0.85rem;
+    border-top: 1px solid var(--line);
+  }
+  .cert-list li span:first-child {
+    font-weight: 600;
+  }
+</style>

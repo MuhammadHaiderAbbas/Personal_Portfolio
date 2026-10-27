@@ -1,0 +1,83 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getContent, formatDate } from '../../lib/content';
+
+const { posts } = await getContent();
+---
+
+<Base title="Blog" description="Write-ups and case studies on security testing, development and the projects behind them.">
+  <header class="page-head wrap">
+    <h1>Blog</h1>
+    <p>Write-ups and case studies from my security labs and projects.</p>
+  </header>
+  <section class="wrap">
+    {posts.length ? (
+      <ul class="posts">
+        {posts.map((p) => (
+          <li>
+            <a href={`/blog/${p.slug}/`}>
+              {p.cover_url && <img src={p.cover_url} alt="" width="480" height="300" loading="lazy" decoding="async" />}
+              <div>
+                <time datetime={p.published_on}>{formatDate(p.published_on)}</time>
+                <h2>{p.title}</h2>
+                <p>{p.excerpt}</p>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p class="muted">No posts yet. The first write-up is on its way.</p>
+    )}
+  </section>
+</Base>
+
+<style>
+  .posts {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .posts li {
+    border-top: 1px solid var(--line);
+  }
+  .posts a {
+    display: grid;
+    grid-template-columns: 14rem minmax(0, 1fr);
+    gap: 1.5rem;
+    padding-block: 1.5rem;
+    color: inherit;
+    text-decoration: none;
+  }
+  .posts a:not(:has(img)) {
+    grid-template-columns: 1fr;
+  }
+  .posts img {
+    border-radius: var(--r-sm);
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    width: 100%;
+    border: 1px solid var(--line);
+  }
+  .posts time {
+    color: var(--muted);
+    font-size: var(--step--1);
+  }
+  .posts h2 {
+    font-size: var(--step-2);
+    margin: 0.2rem 0 0.4rem;
+  }
+  .posts a:hover h2 {
+    color: var(--accent);
+  }
+  .posts p {
+    color: var(--muted);
+    margin: 0;
+    max-width: var(--measure);
+  }
+  @media (max-width: 40rem) {
+    .posts a {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

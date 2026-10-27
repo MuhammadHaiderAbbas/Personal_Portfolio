@@ -1,0 +1,148 @@
+---
+import Base from '../../layouts/Base.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { getContent, md, youtubeId } from '../../lib/content';
+import type { Project } from '../../lib/types';
+
+export async function getStaticPaths() {
+  const { projects } = await getContent();
+  return projects.map((project) => ({ params: { slug: project.slug }, props: { project } }));
+}
+
+const { project } = Astro.props as { project: Project };
+const { projects } = await getContent();
+const yt = youtubeId(project.video_url);
+const related = projects.filter((p) => p.slug !== project.slug && p.category === project.category).slice(0, 2);
+const links = [
+  project.live_url && { href: project.live_url, label: 'Visit the live site' },
+  project.repo_url && { href: project.repo_url, label: 'View the code' },
+  project.video_url && !yt && { href: project.video_url, label: 'Watch the video' },
+].filter(Boolean) as { href: string; label: string }[];
+---
+
+<Base title={project.title} description={project.summary} image={project.cover_url || undefined} type="article">
+  <article>
+    <header class="page-head wrap">
+      <p class="crumb"><a href="/projects/">Projects</a>{project.category && <span> / {project.category}</span>}</p>
+      <h1>{project.title}</h1>
+      <p>{project.summary}</p>
+      {project.tech.length > 0 && (
+        <ul class="tags" aria-label="Tools and technologies">
+          {project.tech.map((t) => <li>{t}</li>)}
+        </ul>
+      )}
+      {links.length > 0 && (
+        <div class="actions links">
+          {links.map((l, i) => <a class={i === 0 ? 'btn' : 'btn btn-quiet'} href={l.href} rel="noopener">{l.label}</a>)}
+        </div>
+      )}
+    </header>
+
+    {yt ? (
+      <div class="wrap media">
+        <a class="video" href={project.video_url} rel="noopener" aria-label={`Watch ${project.title} on YouTube`}>
+          <img src={project.cover_url || `https://i.ytimg.com/vi/${yt}/hqdefault.jpg`} alt="" width="1600" height="900" fetchpriority="high" />
+          <span class="play" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg>
+          </span>
+        </a>
+      </div>
+    ) : project.cover_url ? (
+      <div class="wrap media">
+        <img src={project.cover_url} alt="" width="1600" height="900" fetchpriority="high" />
+      </div>
+    ) : null}
+
+    <div class="wrap body">
+      <div class="prose" set:html={md(project.body)} />
+    </div>
+
+    {project.gallery.length > 0 && (
+      <section class="wrap section">
+        <h2>Screenshots</h2>
+        <ul class="gallery">
+          {project.gallery.map((src) => (
+            <li>
+              <a href={src}>
+                <img src={src} alt="" width="1400" height="700" loading="lazy" decoding="async" />
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+  </article>
+
+  {related.length > 0 && (
+    <section class="wrap section">
+      <h2>More {project.category.toLowerCase()} work</h2>
+      <div class="project-grid">
+        {related.map((p) => <ProjectCard project={p} />)}
+      </div>
+    </section>
+  )}
+</Base>
+
+<style>
+  .crumb {
+    font-size: var(--step--1);
+    margin-bottom: 1rem;
+  }
+  .crumb span {
+    color: var(--muted);
+  }
+  .page-head .tags {
+    margin-top: 1.25rem;
+  }
+  .links {
+    margin-top: 1.5rem;
+  }
+  .media img {
+    width: 100%;
+    max-height: 70vh;
+    object-fit: cover;
+    border-radius: var(--r-md);
+    border: 1px solid var(--line);
+  }
+  .video {
+    position: relative;
+    display: block;
+  }
+  .play {
+    position: absolute;
+    inset: 50% auto auto 50%;
+    translate: -50% -50%;
+    inline-size: 4.5rem;
+    block-size: 4.5rem;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+  .play svg {
+    inline-size: 2rem;
+    block-size: 2rem;
+  }
+  .video:hover .play {
+    filter: brightness(1.1);
+  }
+  .body {
+    padding-top: clamp(2rem, 5vw, 3.5rem);
+  }
+  .gallery {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+    gap: 1rem;
+  }
+  .gallery img {
+    border-radius: var(--r-sm);
+    border: 1px solid var(--line);
+    aspect-ratio: 2 / 1;
+    object-fit: cover;
+    width: 100%;
+  }
+</style>

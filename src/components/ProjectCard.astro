@@ -1,0 +1,32 @@
+---
+import type { Project } from '../lib/types';
+
+interface Props {
+  project: Project;
+  eager?: boolean;
+}
+const { project, eager = false } = Astro.props;
+---
+
+<a class="project-card" href={`/projects/${project.slug}/`} data-category={project.category}>
+  <div class="cover">
+    {
+      project.cover_url ? (
+        <img
+          src={project.cover_url}
+          alt=""
+          width="800"
+          height="500"
+          loading={eager ? 'eager' : 'lazy'}
+          fetchpriority={eager ? 'high' : undefined}
+          decoding="async"
+        />
+      ) : (
+        <div class="cover-text" aria-hidden="true">{project.category || project.title}</div>
+      )
+    }
+  </div>
+  {project.category && <span class="category">{project.category}</span>}
+  <h3>{project.title}</h3>
+  <p>{project.summary}</p>
+</a>

@@ -1,0 +1,60 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getContent, md, formatDate } from '../../lib/content';
+import type { Post } from '../../lib/types';
+
+export async function getStaticPaths() {
+  const { posts } = await getContent();
+  return posts.map((post) => ({ params: { slug: post.slug }, props: { post } }));
+}
+
+const { post } = Astro.props as { post: Post };
+const { profile } = await getContent();
+---
+
+<Base title={post.title} description={post.excerpt} image={post.cover_url || undefined} type="article">
+  <article>
+    <header class="page-head wrap">
+      <p class="crumb"><a href="/blog/">Blog</a></p>
+      <h1>{post.title}</h1>
+      <p>{post.excerpt}</p>
+      <p class="byline">
+        {profile.short_name}, <time datetime={post.published_on}>{formatDate(post.published_on)}</time>
+      </p>
+      {post.tags.length > 0 && (
+        <ul class="tags" aria-label="Tags">
+          {post.tags.map((t) => <li>{t}</li>)}
+        </ul>
+      )}
+    </header>
+    {post.cover_url && (
+      <div class="wrap">
+        <img class="cover-img" src={post.cover_url} alt="" width="1600" height="800" fetchpriority="high" />
+      </div>
+    )}
+    <div class="wrap body">
+      <div class="prose" set:html={md(post.body)} />
+    </div>
+  </article>
+</Base>
+
+<style>
+  .crumb {
+    font-size: var(--step--1);
+    margin-bottom: 1rem;
+  }
+  .page-head .byline {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+  .cover-img {
+    width: 100%;
+    max-height: 60vh;
+    object-fit: cover;
+    border-radius: var(--r-md);
+    border: 1px solid var(--line);
+  }
+  .body {
+    padding-top: clamp(2rem, 5vw, 3.5rem);
+  }
+</style>
